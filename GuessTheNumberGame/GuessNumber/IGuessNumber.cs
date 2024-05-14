@@ -1,4 +1,4 @@
-﻿namespace GuessTheNumberGame.Contract
+﻿namespace GuessTheNumberGame.GuessNumber
 {
     /// <summary>
     /// Интерфейс, предоставляющий контракт для отгадывания числа

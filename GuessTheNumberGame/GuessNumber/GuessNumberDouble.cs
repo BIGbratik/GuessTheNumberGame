@@ -1,7 +1,6 @@
-﻿using GuessTheNumberGame.Contract;
-using System.Security.Cryptography;
+﻿using GuessTheNumberGame.CustomConsole;
 
-namespace GuessTheNumberGame.Impl
+namespace GuessTheNumberGame.GuessNumber
 {
     public class GuessNumberDouble : IGuessNumber
     {
@@ -9,7 +8,7 @@ namespace GuessTheNumberGame.Impl
 
         public bool? IsTrueNumber(string number)
         {
-            if (double.TryParse(number, out var num))
+            if (double.TryParse(number.Replace('.', ','), out var num))
             {
                 if (_myNumber == num)
                 {
@@ -27,18 +26,18 @@ namespace GuessTheNumberGame.Impl
         public void PrepareNumber(string leftNumber, string rightNumber)
         {
             //Валидация переданных границ числа
-            if (!double.TryParse(leftNumber, out var firstNum))
+            if (!double.TryParse(leftNumber.Replace('.', ','), out var firstNum))
             {
-                Console.WriteLine("Левое число передано неверно, либо выходит за пределы допустимого");
+                CustomConsolePrint.PrintWarningInfo("\nЛевое число передано неверно, либо выходит за пределы допустимого (первое число в настройках)");
             }
 
-            if (!double.TryParse(rightNumber, out var secondNum))
+            if (!double.TryParse(rightNumber.Replace('.', ','), out var secondNum))
             {
-                Console.WriteLine("Правое число передано неверно, либо выходит за пределы допустимого");
+                CustomConsolePrint.PrintWarningInfo("\nПравое число передано неверно, либо выходит за пределы допустимого (второе число в настройках)");
             }
 
             // Генерируем случайн коэффициент
-            var simpleRnd = (new Random()).NextDouble();
+            var simpleRnd = new Random().NextDouble();
 
             // Строим случайный корень генерации случаности для игрового числа
             var seed = (int)(firstNum * simpleRnd - secondNum / simpleRnd);
@@ -47,7 +46,7 @@ namespace GuessTheNumberGame.Impl
             var rnd = new Random(seed);
 
             // Задаём число к игре на заданном отрезке
-            _myNumber = rnd.NextDouble()*(secondNum-firstNum)+firstNum;
+            _myNumber = rnd.NextDouble() * (secondNum - firstNum) + firstNum;
         }
     }
 }

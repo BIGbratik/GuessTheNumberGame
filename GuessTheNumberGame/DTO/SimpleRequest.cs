@@ -1,7 +1,7 @@
 ﻿namespace GuessTheNumberGame.DTO
 {
     /// <summary>
-    /// Справочник базовых ответов пользователя
+    /// Базовых поддерживаемые ответы пользователя (Y - подтверждение; N - отказ)
     /// </summary>
     public enum SimpleRequest
     {

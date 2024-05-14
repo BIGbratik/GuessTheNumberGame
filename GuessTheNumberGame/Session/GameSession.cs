@@ -1,25 +1,22 @@
-﻿using GuessTheNumberGame.Contract;
+﻿using GuessTheNumberGame.CustomConsole;
 using GuessTheNumberGame.DTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using GuessTheNumberGame.GuessNumber;
 
-namespace GuessTheNumberGame.Impl
+namespace GuessTheNumberGame.Session
 {
-    public class GameSession : IGameSession
+    public class GameSession
     {
         private IGuessNumber _guessNumber { get; set; }
 
         private int _attemptCount { get; set; }
-        public GameSession(IGuessNumber guessNumber, string attemptCount) 
+
+        public GameSession(IGuessNumber guessNumber, string attemptCount)
         {
             _guessNumber = guessNumber;
 
             if (!int.TryParse(attemptCount, out _))
             {
-                Console.WriteLine("Кол-во попыток задано некорректно!");
+                CustomConsolePrint.PrintWarningInfo("\nКол-во попыток задано некорректно (третье число в настройках)");
             }
             else
             {
@@ -27,18 +24,22 @@ namespace GuessTheNumberGame.Impl
             }
         }
 
+        /// <summary>
+        /// Запуск игры
+        /// </summary>
         public void PlayGame()
         {
             if (_attemptCount == 0)
             {
-                Console.WriteLine("А как играть с 0 попыток?!");
+                CustomConsolePrint.PrintCommonInfo("\nА как играть с 0 попыток?!");
             }
             else
             {
-                Console.WriteLine("Если желаешь завершить игру досрочно - введи N.\nИгра началась!!!");
-                while(_attemptCount > 0)
+                CustomConsolePrint.PrintCommonInfo("\nЕсли желаешь завершить игру досрочно - введи N.\nИгра началась!!!");
+
+                while (_attemptCount > 0)
                 {
-                    var request = Console.ReadLine();
+                    var request = Console.ReadLine()?.ToUpper();
                     if (request != null)
                     {
                         if (request == SimpleRequest.N.ToString())
@@ -52,19 +53,19 @@ namespace GuessTheNumberGame.Impl
                             {
                                 if (isSuccess.Value)
                                 {
-                                    Console.WriteLine(SimpleAnswers.Success.ToString());
+                                    CustomConsolePrint.PrintReactionInfo(SimpleAnswers.Success.ToString(), ConsoleColor.Green);
                                     break;
                                 }
                                 else
                                 {
-                                    Console.WriteLine(SimpleAnswers.Fail.ToString());
+                                    CustomConsolePrint.PrintReactionInfo(SimpleAnswers.Fail.ToString(), ConsoleColor.Red);
                                     _attemptCount--;
                                 }
                             }
                         }
                     }
                 }
-                Console.WriteLine("ИГРА ЗАВЕРШЕНА!!!");
+                CustomConsolePrint.PrintCommonInfo("\nИГРА ЗАВЕРШЕНА!!!\n");
             }
         }
     }

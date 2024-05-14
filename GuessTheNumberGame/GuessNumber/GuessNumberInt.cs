@@ -1,11 +1,11 @@
-﻿using GuessTheNumberGame.Contract;
+﻿using GuessTheNumberGame.CustomConsole;
 
-namespace GuessTheNumberGame.Impl
+namespace GuessTheNumberGame.GuessNumber
 {
     public class GuessNumberInt : IGuessNumber
     {
         private int _myNumber;
-        public GuessNumberInt() 
+        public GuessNumberInt()
         {
 
         }
@@ -32,16 +32,16 @@ namespace GuessTheNumberGame.Impl
             //Валидация переданных границ числа
             if (!int.TryParse(leftNumber, out var firstNum))
             {
-                Console.WriteLine("Левое число передано неверно, либо выходит за пределы допустимого");
+                CustomConsolePrint.PrintWarningInfo("\nЛевое число передано неверно, либо выходит за пределы допустимого (первое число в настройках)");
             }
 
             if (!int.TryParse(rightNumber, out var secondNum))
             {
-                Console.WriteLine("Правое число передано неверно, либо выходит за пределы допустимого");
+                CustomConsolePrint.PrintWarningInfo("\nПравое число передано неверно, либо выходит за пределы допустимого (второе число в настройках)");
             }
 
             // Генерируем случайн коэффициент
-            var simpleRnd = (new Random()).Next(1, 10);
+            var simpleRnd = new Random().Next(1, 10);
 
             // Строим случайный корень генерации случаности для игрового числа
             var seed = firstNum * simpleRnd - secondNum / simpleRnd;

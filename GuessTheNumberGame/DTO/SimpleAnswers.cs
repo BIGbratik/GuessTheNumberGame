@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GuessTheNumberGame.DTO
+﻿namespace GuessTheNumberGame.DTO
 {
+    /// <summary>
+    /// Реакции на число, предложенное во время игры (Угадал - Success; Неугадал - Fail)
+    /// </summary>
     public enum SimpleAnswers
     {
         Success,
