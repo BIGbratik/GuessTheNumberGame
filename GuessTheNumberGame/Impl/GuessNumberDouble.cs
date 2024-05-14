@@ -1,18 +1,15 @@
 ﻿using GuessTheNumberGame.Contract;
+using System.Security.Cryptography;
 
 namespace GuessTheNumberGame.Impl
 {
-    public class GuessNumberInt : IGuessNumber
+    public class GuessNumberDouble : IGuessNumber
     {
-        private int _myNumber;
-        public GuessNumberInt() 
-        {
-
-        }
+        private double _myNumber;
 
         public bool? IsTrueNumber(string number)
         {
-            if (int.TryParse(number, out var num))
+            if (double.TryParse(number, out var num))
             {
                 if (_myNumber == num)
                 {
@@ -30,27 +27,27 @@ namespace GuessTheNumberGame.Impl
         public void PrepareNumber(string leftNumber, string rightNumber)
         {
             //Валидация переданных границ числа
-            if (!int.TryParse(leftNumber, out var firstNum))
+            if (!double.TryParse(leftNumber, out var firstNum))
             {
                 Console.WriteLine("Левое число передано неверно, либо выходит за пределы допустимого");
             }
 
-            if (!int.TryParse(rightNumber, out var secondNum))
+            if (!double.TryParse(rightNumber, out var secondNum))
             {
                 Console.WriteLine("Правое число передано неверно, либо выходит за пределы допустимого");
             }
 
             // Генерируем случайн коэффициент
-            var simpleRnd = (new Random()).Next(1, 10);
+            var simpleRnd = (new Random()).NextDouble();
 
             // Строим случайный корень генерации случаности для игрового числа
-            var seed = firstNum * simpleRnd - secondNum / simpleRnd;
+            var seed = (int)(firstNum * simpleRnd - secondNum / simpleRnd);
 
             // Инициализируем генератор случаности для игры
             var rnd = new Random(seed);
 
             // Задаём число к игре на заданном отрезке
-            _myNumber = rnd.Next(firstNum, secondNum);
+            _myNumber = rnd.NextDouble()*(secondNum-firstNum)+firstNum;
         }
     }
 }

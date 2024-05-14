@@ -10,6 +10,8 @@
         /// </summary>
         /// <param name="number">Число в формате строки</param>
         /// <returns>True - число отгадано; False - число не отгадано</returns>
-        public bool IsTrueNumber(string number);
+        public bool? IsTrueNumber(string number);
+
+        public void PrepareNumber(string leftNumber, string rightNumber);
     }
 }
